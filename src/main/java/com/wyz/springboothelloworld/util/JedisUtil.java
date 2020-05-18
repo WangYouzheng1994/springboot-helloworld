@@ -1,16 +1,12 @@
 package com.wyz.springboothelloworld.util;
 
-import org.apache.commons.lang3.StringUtils;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-
-public class JedisUtil {
+public class JedisUtil {/*
     private static JedisPool pool = null;
 
     private static ThreadLocal<JedisPool> poolThreadLocal = new ThreadLocal<JedisPool>();
 
     public static JedisPool getPool() {
-        /*if (pool == null) {
+        *//*if (pool == null) {
             JedisPoolConfig config = new JedisPoolConfig();
             config.setMaxActive(Integer.valueOf(PropertyUtil.getRedisValue("redis.pool.maxActive")));
             config.setMaxIdle(Integer.valueOf(PropertyUtil.getRedisValue("redis.pool.maxIdle")));
@@ -24,7 +20,7 @@ public class JedisUtil {
             pool =
                     new JedisPool(config, PropertyUtil.getRedisValue("redis.ip"), Integer.valueOf(PropertyUtil
                             .getRedisValue("redis.port")), 100000, PropertyUtil.getRedisValue("redis.pool.password"));
-        }*/
+        }*//*
         return pool;
     }
 
@@ -36,5 +32,5 @@ public class JedisUtil {
         if (value instanceof String) {
             // String strKey = value;
         }
-    }
+    }*/
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class IndexController {
     private String serverPort;
 
     @RequestMapping("/indexController")
-    public String indexController(Map<String, Object> result) {
+    public String indexController(HttpServletRequest request, Map<String, Object> result) {
         System.out.println("IndexController....index");
         result.put("name", "wangyouzheng");
         result.put("sex", 0);
@@ -22,6 +23,8 @@ public class IndexController {
         strings.add("zhangsan");
         strings.add("list");
         result.put("userList", strings);
+
+        request.getSession() ;
         return "index";
     }
 
