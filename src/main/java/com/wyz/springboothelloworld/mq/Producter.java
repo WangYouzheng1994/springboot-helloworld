@@ -19,7 +19,10 @@ public class Producter {
 		Session session = connection.createSession(Boolean.FALSE, Session.AUTO_ACKNOWLEDGE);
 		Destination destination = session.createQueue("my-queue");
 		MessageProducer producer = session.createProducer(destination);
+		// 不持久化
 		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+		// 设置持久化
+		producer.setDeliveryMode(DeliveryMode.PERSISTENT);
 		for (int i = 1; i <= 5; i++) {
 			System.out.println("我是生产者" + i);
 			sendMsg(session, producer, "我是生产者 " + i);
