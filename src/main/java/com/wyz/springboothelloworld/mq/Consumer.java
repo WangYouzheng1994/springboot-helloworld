@@ -77,6 +77,10 @@ public class Consumer {
 		}
 	}
 
+	/**
+	 * 测试签收~
+	 * @throws JMSException
+	 */
 	public static void manualAcknowledge() throws JMSException {
 		// 去给连接工厂传入基础的连接参数。使用默认的账号密码 admin admin
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, "tcp://127.0.0.1:61616");
@@ -85,22 +89,25 @@ public class Consumer {
 		// 启动连接
 		connection.start();
 		// 创建会话工厂 只是创建session
-		Session session = connection.createSession(Boolean.FALSE, Session.AUTO_ACKNOWLEDGE);
+		Session session = connection.createSession(Boolean.TRUE, Session.CLIENT_ACKNOWLEDGE);
 		// 创建队列
-		Destination destination = session.createQueue("manal-queue2");
+		Destination destination = session.createQueue("manal-queue");
 		// 创建消费者
 		MessageConsumer consumer = session.createConsumer(destination);
 		while (true) {
 			System.out.println("开始调用了哈");
 			//
 			TextMessage receive = (TextMessage) consumer.receive();
+			// 手动签收
+			receive.acknowledge();
 			if (receive != null) {
 				String text = receive.getText();
 				System.out.println("消费者获取到消息：" + text);
 			} else {
 				break;
 			}
-			// session.commit(); // 不commit 在mq里面是看不到被消费了的
+			// session.commit(); // 不commit 在mq里面是看不到被消费了的 --> 没有出队列
+			session.rollback();
 			System.out.println("调用结束了哈");
 		}
 	}
