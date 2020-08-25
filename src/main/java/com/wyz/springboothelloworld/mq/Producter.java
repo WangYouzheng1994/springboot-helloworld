@@ -2,6 +2,11 @@ package com.wyz.springboothelloworld.mq;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsMessagingTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import javax.jms.*;
 
@@ -10,11 +15,23 @@ import javax.jms.*;
  * @Date: 2020/5/21 20:33
  * @Description:
  */
+@Component // 放到容器
+@EnableScheduling // 定时调度
 public class Producter {
-	public static void main(String[] args) throws Exception {
+	/*public static void main(String[] args) throws Exception {
 		// Producter.transactionProducer();
 		Producter.manualMessageProducer();
+	}*/
+	@Autowired
+	private JmsMessagingTemplate jmsMessagingTemplate;
+	@Autowired
+	private Queue queue;
+
+	@Scheduled(fixedDelay = 3000)
+	public void send() {
+		jmsMessagingTemplate.convertAndSend(queue, System.currentTimeMillis() + "---------springboot 生产者消息。");
 	}
+
 
 	static public void sendMsg(Session session, MessageProducer producer, String i) throws JMSException {
 		TextMessage textMessage = session.createTextMessage("hello activemq " + i);
